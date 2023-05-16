@@ -1,0 +1,10 @@
+.main-btn {
+    padding: .5rem 1rem;
+    background-color: var(--main-color);
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    border-radius: .2rem;
+    font-weight: bolder;
+    
+}

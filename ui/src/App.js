@@ -14,9 +14,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index path="/" element={<Netflix />} />
+        <Route index path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/home" element={<Netflix />} />
         <Route path="/tv" element={<TVShow />} />
         <Route path="/new" element={<Player />} />
         <Route path="/mylist" element={<UserListedMovies />} />
