@@ -1,21 +1,32 @@
-import React from 'react'
-import styled from 'styled-components'
-import logo from '../assets/logo.png'
-import {useNavigate} from 'react-router-dom'
-const Header = () => {
-const navigate = useNavigate();
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+import { firebaseAuth } from "../util/firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
 
+const Header = () => {
+  const navigate = useNavigate();
+  const [showBtn, setShowBtn] = useState(true);
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (currentUser) => {
+      if (currentUser) setShowBtn(false);
+    });
+
+  }, [])
   return (
     <HeaderContainer className="flex a-center j-between">
       <div className="logo">
         <img src={logo} alt="logo" />
       </div>
-      <button className="main-btn" onClick={() => navigate("/login")}>
-        Login
-      </button>
+      {showBtn && (
+        <button className="main-btn" onClick={() => navigate("/login")}>
+          Login
+        </button>
+      )}
     </HeaderContainer>
   );
-}
+};
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -33,4 +44,4 @@ const HeaderContainer = styled.header`
     font-size: 1.05rem;
   }
 `;
-export default Header
+export default Header;

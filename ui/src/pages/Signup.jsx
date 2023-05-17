@@ -1,14 +1,35 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
+// firebase
+import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
+import { firebaseAuth } from '../util/firebase-config'
 
 const Signup = () => {
+    const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const formState = {
     email: "",
     password: "",
   };
   const [formVal, setFormVal] = useState(formState);
 
+  const onSubmit = async(e) => {
+    e.preventDefault();
+    // console.log(formVal);
+    try{
+        const { email, password } = formVal;
+        await createUserWithEmailAndPassword(firebaseAuth, email, password);
+        
+        
+    } catch (err) {
+        console.log(err);
+    }
+  }
+
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if(currentUser) navigate('/home')
+  })
   return (
     <Container>
       <Wrap className="flex column a-center j-center">
@@ -21,7 +42,7 @@ const Signup = () => {
           </h6>
         </div>
 
-        <Form>
+        <Form onSubmit={onSubmit}>
           <input
             type="email"
             placeholder="E-mail"
@@ -31,8 +52,31 @@ const Signup = () => {
               setFormVal({ ...formVal, [e.target.name]: e.target.value })
             }
           />
-          <input type="password" name="password" placeholder="Password" />
-          <button className="main-btn">시작하기</button>
+          {showPassword && (
+            <>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formVal.password}
+                onChange={(e) =>
+                  setFormVal({ ...formVal, [e.target.name]: e.target.value })
+                }
+              />
+              <button type="submit" className="main-btn">
+                가입하기
+              </button>
+            </>
+          )}
+          {!showPassword && (
+            <button
+              type="button"
+              onClick={() => setShowPassword(true)}
+              className="main-btn"
+            >
+              시작하기
+            </button>
+          )}
         </Form>
       </Wrap>
     </Container>
@@ -55,7 +99,6 @@ const Container = styled.section`
     height: 100%;
     z-index: -5;
   }
-  
 `;
 
 const Wrap = styled.div`
@@ -68,7 +111,7 @@ const Wrap = styled.div`
   }
 
   @media (max-width: 768px) {
-    .text { 
+    .text {
       font-size: 1rem;
     }
   }
@@ -92,8 +135,7 @@ const Form = styled.form`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: .8rem;
-
+    gap: 0.8rem;
   }
 `;
 export default Signup;
