@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import styled from 'styled-components';
 
 const Netflix = () => {
+
   return (
-    <div>Netflix</div>
+    <>
+
+    </>
   )
 }
-
+const Nav = styled.nav`
+  
+`
 export default Netflix

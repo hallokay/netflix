@@ -8,7 +8,11 @@ import {
 } from "firebase/auth";
 import { firebaseAuth } from "../util/firebase-config";
 
+import { useDispatch } from "react-redux";
+import { setUserLongin } from "../store/features/userSlice";
+
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const formState = {
     email: "",
@@ -26,9 +30,21 @@ const Login = () => {
       console.log(err);
     }
   };
+const setUser = (currentUser) => {
+  console.log('login',currentUser);
+    const {
+      email,
+      reloadUserInfo: { passwordHash: password },
+    } = currentUser;
+    dispatch(setUserLongin(email, password));
 
+};
   onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) navigate("/home");
+    if (currentUser) {
+      setUser(currentUser);
+      navigate("/home")}
+    
+
   });
   return (
     <Container>

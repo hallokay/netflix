@@ -5,7 +5,12 @@ import { useNavigate } from "react-router-dom";
 import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
 import { firebaseAuth } from '../util/firebase-config'
 
+import { useDispatch } from "react-redux";
+import {setUserLongin} from '../store/features/userSlice'
+
 const Signup = () => {
+  const dispatch = useDispatch();
+
     const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const formState = {
@@ -26,9 +31,20 @@ const Signup = () => {
         console.log(err);
     }
   }
+const setUser = currentUser => {
+  console.log('signup',currentUser);
+  const {
+    email,
+    reloadUserInfo: { passwordHash: password },
+  } = currentUser;
+  dispatch(setUserLongin( email , password));
 
+}
   onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if(currentUser) navigate('/home')
+    if(currentUser) {
+      setUser(currentUser);
+      navigate('/home')
+    }
   })
   return (
     <Container>
