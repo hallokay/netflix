@@ -10,8 +10,8 @@ import {setUserLongin} from '../store/features/userSlice'
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const formState = {
     email: "",
@@ -24,28 +24,31 @@ const Signup = () => {
     // console.log(formVal);
     try{
         const { email, password } = formVal;
-        await createUserWithEmailAndPassword(firebaseAuth, email, password);
+        await createUserWithEmailAndPassword(firebaseAuth, email, password)
+        .then((result)=> {
+          console.log('result', result);
+        })
         
         
     } catch (err) {
         console.log(err);
     }
   }
-const setUser = currentUser => {
-  console.log('signup',currentUser);
-  const {
-    email,
-    reloadUserInfo: { passwordHash: password },
-  } = currentUser;
-  dispatch(setUserLongin( email , password));
+// const setUser = currentUser => {
+//   console.log('signup',currentUser);
+//   const {
+//     email,
+//     reloadUserInfo: { passwordHash: password },
+//   } = currentUser;
+//   dispatch(setUserLongin( email , password));
 
-}
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if(currentUser) {
-      setUser(currentUser);
-      navigate('/home')
-    }
-  })
+// }
+//   onAuthStateChanged(firebaseAuth, (currentUser) => {
+//     if(currentUser) {
+//       setUser(currentUser);
+//       navigate('/home')
+//     }
+//   })
   return (
     <Container>
       <Wrap className="flex column a-center j-center">

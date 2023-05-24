@@ -26,26 +26,28 @@ const Login = () => {
     try {
       const { email, password } = formVal;
       await signInWithEmailAndPassword(firebaseAuth, email, password);
+      navigate('/home');
+
     } catch (err) {
       console.log(err);
     }
   };
-const setUser = (currentUser) => {
-  console.log('login',currentUser);
-    const {
-      email,
-      reloadUserInfo: { passwordHash: password },
-    } = currentUser;
-    dispatch(setUserLongin(email, password));
+// const setUser = (currentUser) => {
+//   console.log('login',currentUser);
+//     const {
+//       email,
+//       reloadUserInfo: { passwordHash: password },
+//     } = currentUser;
+//     dispatch(setUserLongin(email, password));
 
-};
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) {
-      setUser(currentUser);
-      navigate("/home")}
+// };
+//   onAuthStateChanged(firebaseAuth, (currentUser) => {
+//     if (currentUser) {
+//       setUser(currentUser);
+//       navigate("/home")}
     
 
-  });
+//   });
   return (
     <Container>
       <Wrap className="flex column a-center j-center">
