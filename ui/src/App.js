@@ -18,10 +18,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Netflix />} />
         <Route path="/tv" element={<TVShow />} />
-        <Route path="/new" element={<Player />} />
         <Route path="/mylist" element={<UserListedMovies />} />
         <Route path="/movies" element={<MoviePage />} />
       </Route>
+      <Route path="/play" element={<Player />} />
     </Routes>
   );
 }

@@ -34,4 +34,5 @@ const userSlice = createSlice({
 
 export const { setUserLongin, setSignOut } = userSlice.actions;
 export const selectUserEmail = state => state.user.email;
+
 export default userSlice.reducer;
