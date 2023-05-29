@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import bg from "../assets/home.jpg";
 import movieLogo from "../assets/homeTitle.webp";
@@ -6,9 +6,16 @@ import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {getGenres} from '../store/features/movieSlice'
 
 const Netflix = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getGenres());
+  }, [])
   return (
     <Container>
       <Hero>
@@ -50,7 +57,7 @@ const Hero = styled.div`
 const MovieInfo = styled.div`
   position: absolute;
   bottom: 5rem;
-  
+
   .movie-title {
     img {
       width: 100%;
