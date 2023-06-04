@@ -4,7 +4,6 @@ import generateApiUrl from "../../util/generateApiUrl";
 
 const initialState = {
   movies: [],
-  genresLoaded: false,
   genres: [],
 };
 
@@ -14,7 +13,7 @@ export const getGenres = createAsyncThunk("movie/genres", async () => {
   const {
     data: { genres },
   } = await axios.get(url);
-  console.log("genres", genres);
+  console.log("저장소 genres", genres);
   return genres;
 });
 
@@ -26,7 +25,7 @@ export const fetchMovies = createAsyncThunk(
     } = thunkApi.getState();
     const apiUrl = generateApiUrl(`trending/${type}/week`);
     const movies = await getRawData(apiUrl, genres);
-console.log('movies',movies);
+console.log('저장소 movies',movies);
     return movies;
   }
 );
@@ -71,10 +70,9 @@ const movieSlice = createSlice({
     builder.addCase(getGenres.fulfilled, (state, action) => {
       // console.log(action.payload);
       state.genres = action.payload;
-      state.genresLoaded = true;
     });
     builder.addCase(fetchMovies.fulfilled, (state, action) => {
-      console.log('fetchMovies', action.payload);
+      // console.log('fetchMovies', action.payload);
       
       state.movies = action.payload;
     });

@@ -6,16 +6,24 @@ import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {getGenres} from '../store/features/movieSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies, getGenres } from "../store/features/movieSlice";
+import { Slider } from "../components/index";
 
 const Netflix = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const genres = useSelector((state) => state.movie.genres);
 
+  // 장르를 불러오기
   useEffect(() => {
     dispatch(getGenres());
-  }, [])
+  }, []);
+  // 영화 가져오기
+  useEffect(() => {
+    if (genres.length > 0) dispatch(fetchMovies({ type: "all" }));
+  }, [genres]);
+
   return (
     <Container>
       <Hero>
@@ -39,6 +47,7 @@ const Netflix = () => {
           </div>
         </MovieInfo>
       </Hero>
+      <Slider />
     </Container>
   );
 };
