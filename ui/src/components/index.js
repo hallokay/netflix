@@ -5,4 +5,16 @@ import SearchBar from "./SearchBar";
 import Slider from "./Slider";
 import CardSlider from "./CardSlider";
 import Card from "./Card";
-export { Header, NavMenu, UserInfo, SearchBar, Slider, CardSlider, Card };
+import NotAvailable from "./NotAvailable";
+import SelectGenres from "./SelectGenres";
+export {
+  Header,
+  NavMenu,
+  UserInfo,
+  SearchBar,
+  Slider,
+  CardSlider,
+  Card,
+  NotAvailable,
+  SelectGenres,
+};

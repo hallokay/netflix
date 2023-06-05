@@ -16,6 +16,18 @@ export const getGenres = createAsyncThunk("movie/genres", async () => {
   console.log("저장소 genres", genres);
   return genres;
 });
+export const fetchDataByGenre = createAsyncThunk(
+  "movie/genre",
+  async ({ genre,type }, thunkApi) => {
+    const {
+      movie: { genres },
+    } = thunkApi.getState();
+    const apiUrl = generateApiUrl(`/discover/${type}`, `with_genres=${genre}`);
+    const movies = await getRawData(apiUrl, genres);
+    console.log("fetchDataByGenre movies", movies);
+    return movies;
+  }
+);
 
 export const fetchMovies = createAsyncThunk(
   "movie/trending",
@@ -75,6 +87,10 @@ const movieSlice = createSlice({
       // console.log('fetchMovies', action.payload);
       
       state.movies = action.payload;
+    });
+    builder.addCase(fetchDataByGenre.fulfilled,(state, action) => {
+      state.movies = action.payload;
+
     });
   },
 });
