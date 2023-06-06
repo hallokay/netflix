@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Slider = () => {
   const movies = useSelector((state) => state.movie.movies);
-console.log('slider movie', movies);
+// console.log('slider movie', movies);
 
   const getMoviesFromRange = (from, to ) => {
     return movies.slice(from, to)

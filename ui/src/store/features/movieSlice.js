@@ -9,22 +9,22 @@ const initialState = {
 
 export const getGenres = createAsyncThunk("movie/genres", async () => {
   const url = generateApiUrl("/genre/movie/list");
-  
+
   const {
     data: { genres },
   } = await axios.get(url);
-  console.log("저장소 genres", genres);
+  // console.log("저장소 genres", genres);
   return genres;
 });
 export const fetchDataByGenre = createAsyncThunk(
   "movie/genre",
-  async ({ genre,type }, thunkApi) => {
+  async ({ genre, type }, thunkApi) => {
     const {
       movie: { genres },
     } = thunkApi.getState();
     const apiUrl = generateApiUrl(`/discover/${type}`, `with_genres=${genre}`);
     const movies = await getRawData(apiUrl, genres);
-    console.log("fetchDataByGenre movies", movies);
+    // console.log("fetchDataByGenre movies", movies);
     return movies;
   }
 );
@@ -37,7 +37,7 @@ export const fetchMovies = createAsyncThunk(
     } = thunkApi.getState();
     const apiUrl = generateApiUrl(`trending/${type}/week`);
     const movies = await getRawData(apiUrl, genres);
-console.log('저장소 movies',movies);
+    // console.log("저장소 movies", movies);
     return movies;
   }
 );
@@ -52,7 +52,6 @@ const getRawData = async (api, genres) => {
   }
   return moviesArr;
 };
- 
 
 const createArrFromRawData = (resultsArr, moviesArr, genres) => {
   resultsArr.forEach((movie) => {
@@ -85,12 +84,10 @@ const movieSlice = createSlice({
     });
     builder.addCase(fetchMovies.fulfilled, (state, action) => {
       // console.log('fetchMovies', action.payload);
-      
       state.movies = action.payload;
     });
-    builder.addCase(fetchDataByGenre.fulfilled,(state, action) => {
+    builder.addCase(fetchDataByGenre.fulfilled, (state, action) => {
       state.movies = action.payload;
-
     });
   },
 });

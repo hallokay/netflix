@@ -2,11 +2,12 @@ import React, { useRef, useState } from "react";
 import { Card } from "./index";
 import styled from "styled-components";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-
+import { useSelector } from "react-redux";
 const CardSlider = ({ data, title }) => {
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const listRef = useRef();
+  const favoriteMovies = useSelector((state) => state.user.favoriteMovies);
 
   const handleDirection = (direction) => {
     let distance = listRef.current.getBoundingClientRect().x -70;
@@ -37,7 +38,12 @@ const CardSlider = ({ data, title }) => {
         </SliderAction>
         <Slider className="flex" ref={listRef}>
           {data.map((movie, i) => (
-            <Card movieData={movie} i={i} key={movie.id} />
+            <Card
+              movieData={movie}
+              i={i}
+              key={movie.id}
+              isLiked={favoriteMovies.some((m) => m.id === movie.id)}
+            />
           ))}
         </Slider>
         <SliderAction

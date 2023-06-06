@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
+import { addFavMovie, removeFavMovie } from "../store/features/userSlice";
 import video from "../assets/video.mp4";
 import {
   IoPlayCircleSharp,
@@ -12,9 +14,11 @@ import {
   BsCheck,
 } from "../util/constants";
 
-const Card = ({ movieData, isLiked = false }) => {
+const Card = ({ movieData, isLiked }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isHoverd, setIsHovered] = useState(false);
+
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
@@ -56,9 +60,15 @@ const Card = ({ movieData, isLiked = false }) => {
                 <RiThumbDownFill title="Dislike" />
 
                 {isLiked ? (
-                  <BsCheck title=" 리스트에서 제거" />
+                  <BsCheck
+                    title=" 리스트에서 제거"
+                    onClick={() => dispatch(removeFavMovie(movieData))}
+                  />
                 ) : (
-                  <AiOutlinePlus title="리스트에 추가" />
+                  <AiOutlinePlus
+                    title="리스트에 추가"
+                    onClick={() => dispatch(addFavMovie(movieData))}
+                  />
                 )}
               </div>
               <div className="more-info">
@@ -95,7 +105,7 @@ const Container = styled.div`
 
 const Hover = styled.div`
   position: absolute;
-  top: -18vh;
+  top: -10vh;
   left: 0;
   width: 20rem;
   height: max-content;
@@ -147,6 +157,7 @@ const Icons = styled.div`
   }
 `;
 const Genres = styled.div`
+
   ul {
     gap: 1rem;
     li {
